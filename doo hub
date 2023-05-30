@@ -1,0 +1,320 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Doo Hub 💩", "DarkTheme")
+
+local Cool = Window:NewTab("Cool")
+local FE = Cool:NewSection("FE")
+
+
+--FE
+FE:NewButton("Funky Friday", "Funky Friday Autoplayer WIN ANY ROUND", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ShowerHead-FluxTeam/scripts/main/funky-friday-autoplay"))()
+end)
+
+
+FE:NewButton("Ball Character", "Turns you into a ball with Physics", function()
+    local UserInputService = game:GetService("UserInputService")
+    local RunService = game:GetService("RunService")
+    local Camera = workspace.CurrentCamera
+
+    local SPEED_MULTIPLIER = 30
+    local JUMP_POWER = 60
+    local JUMP_GAP = 0.3
+
+    local character = game.Players.LocalPlayer.Character
+
+    for i,v in ipairs(character:GetDescendants()) do
+      if v:IsA("BasePart") then
+           v.CanCollide = false
+       end
+    end
+
+    local ball = character.HumanoidRootPart
+    ball.Shape = Enum.PartType.Ball
+    ball.Size = Vector3.new(5,5,5)
+    local humanoid = character:WaitForChild("Humanoid")
+    local params = RaycastParams.new()
+    params.FilterType = Enum.RaycastFilterType.Blacklist
+    params.FilterDescendantsInstances = {character}
+
+    local tc = RunService.RenderStepped:Connect(function(delta)
+       ball.CanCollide = true
+       humanoid.PlatformStand = true
+    if UserInputService:GetFocusedTextBox() then return end
+    if UserInputService:IsKeyDown("W") then
+    ball.RotVelocity -= Camera.CFrame.RightVector * delta * SPEED_MULTIPLIER
+    end
+    if UserInputService:IsKeyDown("A") then
+    ball.RotVelocity -= Camera.CFrame.LookVector * delta * SPEED_MULTIPLIER
+    end
+    if UserInputService:IsKeyDown("S") then
+    ball.RotVelocity += Camera.CFrame.RightVector * delta * SPEED_MULTIPLIER
+    end
+    if UserInputService:IsKeyDown("D") then
+    ball.RotVelocity += Camera.CFrame.LookVector * delta * SPEED_MULTIPLIER
+    end
+    --ball.RotVelocity = ball.RotVelocity - Vector3.new(0,ball.RotVelocity.Y/50,0)
+    end)
+
+    UserInputService.JumpRequest:Connect(function()
+    local result = workspace:Raycast(
+    ball.Position,
+    Vector3.new(
+    0,
+    -((ball.Size.Y/2)+JUMP_GAP),
+    0
+    ),
+    params
+    )
+    if result then
+    ball.Velocity = ball.Velocity + Vector3.new(0,JUMP_POWER,0)
+    end
+    end)
+
+    Camera.CameraSubject = ball
+    humanoid.Died:Connect(function() tc:Disconnect() end)
+end)
+
+FE:NewButton("Infinite Yeild", "FE Admin Commands", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+FE:NewButton("Flips", "Codes: Z, X, C", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/7wDcPtLk"))()
+end)
+
+FE:NewButton("Rickroll", "Troll Chat with rickroll P.S. this is like 2 minutes long", function()
+    local chat = function(MSG) -- creo thing
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(MSG, "All")
+       end
+       chat("We're no strangers to Iove")
+                   wait(3.5)
+                   chat("You know the rules and so do I")
+                   wait(4)
+                   chat("A full commitment's what I'm thinking of")
+                   wait(4.5)
+                   chat("You wouldn't get this from any other guy")
+                   wait(3.5)
+                   chat("I just wanna tell you how I'm feeling")
+                   wait(3.5)
+                   chat("Gotta make you understand")
+                   wait(3)
+                   chat("Never gonna give you up")
+                   wait(2.5)
+                   chat("Never gonna let you down")
+                   wait(2.5)
+                   chat("Never gonna run around and desert you")
+                   wait(4)
+                   chat("Never gonna make you cry")
+                   wait(2.5)
+                   chat("Never gonna say goodbye")
+                   wait(2.5)
+                   chat("Never gonna tell a lie and hur+ you")
+                   wait(4)
+                   chat("We've known each other for so long")
+                   wait(3.5)
+                   chat("Your heart's been aching, but you're too shy to say it")
+                   wait(5)
+                   chat("Inside, we both know what's been going on")
+                   wait(4.5)
+                   chat("We know the game and we're gonna play it")
+                   wait(5)
+                   chat("And if you ask me how I'm feeling")
+                   wait(5)
+                   chat("Don't tell me you're too blind to see")
+                   wait(3.5)
+                   chat("Never gonna give you up")
+                   wait(2.5)
+                   chat("Never gonna let you down")
+                   wait(2.5)
+                   chat("Never gonna run around and desert you")
+                   wait(4)
+                   chat("Never gonna make you cry")
+                   wait(2.5)
+                   chat("Never gonna say goodbye")
+                   wait(2.5)
+                   chat("Never gonna tell a lie and hur+ you")
+                   wait(4)
+                   chat("Never gonna give you up")
+                   wait(2.5)
+                   chat("Never gonna let you down")
+                   wait(2.5)
+                   chat("Never gonna run around and desert you")
+                   wait(4)
+                   chat("Never gonna make you cry")
+                   wait(2.5)
+                   chat("Never gonna say goodbye")
+                   wait(2.5)
+                   chat("Never gonna tell a lie and hur+ you")
+                   wait(11)
+                   chat("Never gonna give never gonna give")
+                   wait(7.5)
+                   chat("Never gonna give never gonna give")
+                   wait(7)
+                   chat("We've known each other for so long")
+                   wait(3.5)
+                   chat("Your heart's been aching, but you're too shy to say it")
+                   wait(5)
+                   chat("Inside, we both know what's been going on")
+                   wait(4.5)
+                   chat("We know the game and we're gonna play it")
+                   wait(5)
+                   chat("I just wanna tell you how I'm feeling")
+                   wait(3.5)
+                   chat("Gotta make you understand")
+                   wait(3)
+                   chat("Never gonna give you up")
+                   wait(2.5)
+                   chat("Never gonna let you down")
+                   wait(2.5)
+                   chat("Never gonna run around and desert you")
+                   wait(4)
+                   chat("Never gonna make you cry")
+                   wait(2.5)
+                   chat("Never gonna say goodbye")
+                   wait(2.5)
+                   chat("Never gonna tell a lie and hur+ you")
+                   wait(4)
+                   chat("Never gonna give you up")
+                   wait(2.5)
+                   chat("Never gonna let you down")
+                   wait(2.5)
+                   chat("Never gonna run around and desert you")
+                   wait(4)
+                   chat("Never gonna make you cry")
+                   wait(2.5)
+                   chat("Never gonna say goodbye")
+                   wait(2.5)
+                   chat("Never gonna tell a lie and hur+ you")
+                   wait(4)
+                   chat("Never gonna give you up")
+                   wait(2.5)
+                   chat("Never gonna let you down")
+                   wait(2.5)
+                   chat("Never gonna run around and desert you")
+                   wait(4)
+                   chat("Never gonna make you cry")
+                   wait(2.5)
+                   chat("Never gonna say goodbye")
+                   wait(2.5)
+                   chat("Never gonna tell a lie and hur+ you")
+                   wait(4)
+                   chat("brought to you by cam")
+end)
+
+FE:NewButton("Ultimate Trolling GUI", "A ton of trolling scripts some may be patched", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Blukez/Scripts/main/UTG%20V3%20RAW"))()
+end)
+
+FE:NewButton("Owl Hub", "A Aimbot hub works in 50+ games", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))()
+end)
+
+FE:NewButton("PC Tools Hub", "Plane Crazy Tools hub ", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/o7-Fire/Roblox-4/main/plane-crazy/massivegui.lua"))()
+end)
+
+FE:NewButton("Fe annoying admin", ".annoy .fling .nerdify .etc", function()
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheMightySource/FE-Annoying-Admin/main/Main.lua'),true))()
+end)
+
+--Slider
+local Slider = Cool:NewSection("Walk and Jump")
+
+Slider:NewSlider("Walk Speed", "16-500 Speed", 500, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+Slider:NewSlider("Jump Power", "50-500 Power", 500, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+FE:NewButton("PChat Spy", "Allows you to look at all Private messages from players or commands", function()
+    --This script reveals ALL hidden messages in the default chat
+    --chat "/spy" to toggle!
+    enabled = true
+    --if true will check your messages too
+    spyOnMyself = true
+    --if true will chat the logs publicly (fun, risky)
+    public = false
+    --if true will use /me to stand out
+    publicItalics = true
+    --customize private logs
+    privateProperties = {
+        Color = Color3.fromRGB(0,255,255); 
+        Font = Enum.Font.SourceSansBold;
+        TextSize = 18;
+    }
+    --////////////////////////////////////////////////////////////////
+    local StarterGui = game:GetService("StarterGui")
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+    local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+    local instance = (_G.chatSpyInstance or 0) + 1
+    _G.chatSpyInstance = instance
+
+    local function onChatted(p,msg)
+        if _G.chatSpyInstance == instance then
+            if p==player and msg:lower():sub(1,4)=="/spy" then
+                enabled = not enabled
+                wait(0.3)
+                privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+                StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+            elseif enabled and (spyOnMyself==true or p~=player) then
+                msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+                local hidden = true
+                local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+                    if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+                        hidden = false
+                    end
+                end)
+                wait(1)
+                conn:Disconnect()
+                if hidden and enabled then
+                    if public then
+                        saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+                    else
+                        privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+                        StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+                    end
+                end
+            end
+        end
+    end
+
+    for _,p in ipairs(Players:GetPlayers()) do
+        p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+    end
+    Players.PlayerAdded:Connect(function(p)
+        p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+    end)
+    privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+    StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+    local chatFrame = player.PlayerGui.Chat.Frame
+    chatFrame.ChatChannelParentFrame.Visible = true
+    chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+end)
+
+FE:NewButton("Invisible Gui", "A toggle Invisibility button!", function()
+    loadstring(game:HttpGet('https://pastebin.com/raw/AYtzGEPb'))()
+end)
+
+FE:NewButton("Click Fling", "Click somewhere to fling a player or block! Also only works on collide/R6 mostly", function()
+    loadstring(game:HttpGet(('https://pastebin.com/q3y5ZeY9'),true))()
+end)
+
+FE:NewButton("FE Chat Control", "Control players chat messages /e chat 'message' eee !!", function()
+    loadstring(game:HttpGet(('https://pastebin.com/gHUEkbSc'),true))()
+end)
+
+
+
+local Extra = Window:NewTab("Extra")
+local GUI = Extra:NewSection("GUI")
+
+
+GUI:NewKeybind("Toggle GUI", "Toggle that dumb GUI", Enum.KeyCode.LeftControl, function()
+	Library:ToggleUI()
+end)
+
+GUI:NewLabel("Credits: 28_A#2356 CamHead_Does")
