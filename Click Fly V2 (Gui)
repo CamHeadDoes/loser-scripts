@@ -1,0 +1,136 @@
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local backpack = player:WaitForChild("Backpack")
+
+local tool = Instance.new("Tool")
+tool.Name = "ClickFly V2"
+tool.ToolTip = "Click to fly in that direction V2"
+tool.RequiresHandle = false
+
+-- Create GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "ClickFlyGui"
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 90)
+frame.Position = UDim2.new(0.5, -100, 0.5, -45)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(97, 69, 118) -- Purple background color
+frame.BorderSizePixel = 3 -- Increase border size
+frame.BorderColor3 = Color3.fromRGB(183, 140, 199) -- Light purple border color
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+local title = Instance.new("TextLabel")
+title.Text = "Click Fly"
+title.TextSize = 20
+title.Size = UDim2.new(1, 0, 0, 20)
+title.BackgroundColor3 = Color3.fromRGB(139, 95, 157) -- Dark purple background color
+title.BorderSizePixel = 0
+title.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text color
+title.Font = Enum.Font.SourceSansBold -- Use bold font
+title.Parent = frame
+
+local minimizeButtonBorder = Instance.new("Frame")
+minimizeButtonBorder.Size = UDim2.new(0, 79, 0, 20) -- Taller by 2 units
+minimizeButtonBorder.Position = UDim2.new(0.065, 50, 0, -20) -- Moved 50 units to the right
+minimizeButtonBorder.BackgroundColor3 = Color3.fromRGB(183, 140, 199) -- Light purple border color
+minimizeButtonBorder.BorderSizePixel = 0
+minimizeButtonBorder.Parent = frame
+
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Text = "Minimize"
+minimizeButton.TextSize = 14
+minimizeButton.Size = UDim2.new(0, 77, 0, 19) -- Increased height by 2
+minimizeButton.Position = UDim2.new(0, 1, 0, 1) -- Positioned inside the border frame
+minimizeButton.BackgroundColor3 = Color3.fromRGB(139, 95, 157) -- Dark purple background color
+minimizeButton.BorderSizePixel = 0 -- Remove the border below the button
+minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text color
+minimizeButton.Font = Enum.Font.SourceSansBold -- Use bold font
+minimizeButton.Parent = minimizeButtonBorder
+
+local textBox = Instance.new("TextBox")
+textBox.PlaceholderText = "250 = default"
+textBox.TextSize = 14
+textBox.Size = UDim2.new(0.8, 0, 0, 30)
+textBox.Position = UDim2.new(0.1, 0, 0.4, 0)
+textBox.BackgroundColor3 = Color3.fromRGB(163, 126, 171) -- Light purple background color for TextBox
+textBox.Parent = frame
+
+local closeGui = Instance.new("TextButton")
+closeGui.Text = "x"
+closeGui.TextSize = 16
+closeGui.Size = UDim2.new(0, 20, 0, 20)
+closeGui.Position = UDim2.new(1, -25, 0, 0)
+closeGui.BackgroundColor3 = Color3.fromRGB(139, 95, 157) -- Dark purple background color
+closeGui.BorderSizePixel = 0
+closeGui.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text color
+closeGui.Font = Enum.Font.SourceSansBold -- Use bold font
+closeGui.Parent = title
+
+local minimized = false
+local originalSize = frame.Size
+local minimizedSize = UDim2.new(0, 200, 0, 20)
+
+local function toggleMinimize()
+    minimized = not minimized
+    if minimized then
+        frame:TweenSize(minimizedSize, Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.2, true)
+        minimizeButton.BorderColor3 = Color3.fromRGB(183, 140, 199) -- Light purple border color
+        minimizeButton.Text = "Maximize"
+        textBox.Visible = false
+    else
+        frame:TweenSize(originalSize, Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.2, true)
+        minimizeButton.BorderColor3 = Color3.fromRGB(183, 140, 199) -- Light purple border color
+        minimizeButton.Text = "Minimize"
+        textBox.Visible = true
+    end
+end
+
+minimizeButton.MouseButton1Click:Connect(toggleMinimize)
+
+local function closeScript()
+    gui:Destroy() -- Remove the GUI
+    tool:Destroy() -- Remove the tool from the backpack
+end
+
+closeGui.MouseButton1Click:Connect(closeScript)
+
+local function activateGun()
+    if humanoid then
+        local lookVector = mouse.UnitRay.Direction
+
+        -- Get kickback force from GUI input
+        local kickbackForce = tonumber(textBox.Text)
+        if not kickbackForce then
+            kickbackForce = 250 -- Default kickback force if input is invalid
+        end
+        
+        -- Apply kickback force in the direction of the mouse angle
+        local kickbackVelocity = lookVector * kickbackForce
+        
+        local bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.Velocity = kickbackVelocity
+        bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+        bodyVelocity.P = math.huge
+        bodyVelocity.Parent = humanoid.Torso
+        
+        humanoid.Died:Connect(function()
+            bodyVelocity:Destroy()
+            closeScript() -- Close the script after death
+        end)
+        
+        -- Remove kickback force after a short delay
+        wait(0.1) -- Adjust delay as needed
+        bodyVelocity:Destroy()
+    end
+end
+
+tool.Activated:Connect(activateGun)
+
+tool.Parent = backpack
+gui.Parent = player:WaitForChild("PlayerGui")
